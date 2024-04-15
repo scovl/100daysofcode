@@ -1,20 +1,34 @@
 TARGET = main
-
 CC = clang
 CFLAGS = -Wall -Wextra -pedantic -std=c99
 SRCDIR = src
 INCDIR = include
 OBJDIR = obj
-SOURCES = $(wildcard $(SRCDIR)/*.c)
-OBJECTS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
 
-# include dirs
+# Listagem manual dos arquivos fonte
+SOURCES = src/main.c src/math_ops.c src/tools.c src/utils.c
+# Conversão manual dos arquivos fonte para caminhos de arquivos objeto
+OBJECTS = $(SOURCES:S^$(SRCDIR)^$(OBJDIR)^:.c=.o)
+
 INCLUDES = -I$(INCDIR)
 
-# compilation role
+# A regra all para construir o executável final
+all: $(TARGET)
+
+# Criando o diretório obj antes da compilação dos objetos
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+
+# Linkagem dos objetos para formar o executável
+$(TARGET): $(OBJECTS)
+	$(CC) -o $(TARGET) $(OBJECTS)
+
+# Compilação de cada arquivo objeto
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# remove objs
+# Regra para limpeza dos arquivos compilados
 clean:
-	$(RM) $(OBJECTS) $(TARGET)
+	rm -f $(OBJECTS) $(TARGET)
+
+.PHONY: clean all
