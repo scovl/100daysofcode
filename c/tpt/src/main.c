@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include "tools.h"
 #include "utils.h"
+#include "math_ops.h"
 
-int main() {
+int main(void) {
     int result = sum(10,20);
     printf("sum result: %d\n", result);
 
