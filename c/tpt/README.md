@@ -1,7 +1,3 @@
-To enhance the clarity, organization, and presentation of your README for the Text Processing Toolbox, we can structure it with additional sections like Installation, Usage, Features, and Contribution. This structured approach not only makes the README more user-friendly but also more professional. Here's an improved version:
-
----
-
 # Text Processing Toolbox
 
 ## Introduction
