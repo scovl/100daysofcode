@@ -1,43 +1,35 @@
-# Name of the executable
 TARGET = main
-
-# Compiler to use
 CC = clang
-
-# Compilation options
 CFLAGS = -Wall -Wextra -pedantic -std=c99
-
-# Directories
 SRCDIR = src
 INCDIR = include
 OBJDIR = obj
 
-# Manually listing source files
+# Listagem manual dos arquivos fonte
 SOURCES = src/main.c src/math_ops.c src/tools.c src/utils.c
-
-# Converting source file paths to object file paths
-OBJECTS = $(SOURCES:S^$(SRCDIR)^$(OBJDIR)^:.c=.o)
+# Conversão manual dos arquivos fonte para caminhos de arquivos objeto
+#OBJECTS = $(SOURCES:S^$(SRCDIR)^$(OBJDIR)^:.c=.o)
+OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 INCLUDES = -I$(INCDIR)
 
-# Default target to build the final executable
+# A regra all para construir o executável final
 all: $(TARGET)
 
-# Creating the obj directory before compiling the objects
+# Criando o diretório obj antes da compilação dos objetos
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
-# Linking objects to form the executable
+# Linkagem dos objetos para formar o executável
 $(TARGET): $(OBJECTS)
 	$(CC) -o $(TARGET) $(OBJECTS)
 
-# Compiling each object file
+# Compilação de cada arquivo objeto
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Rule to clean compiled files
+# Regra para limpeza dos arquivos compilados
 clean:
 	rm -f $(OBJECTS) $(TARGET)
 
-# Declaring phony targets to avoid conflicts with files of the same name
 .PHONY: clean all
